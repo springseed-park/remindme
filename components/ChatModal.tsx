@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { AppContext } from '../App';
-import { getChatResponse } from '../services/geminiService';
+import { getChatResponse } from '../services/openaiService';
 
 interface Message {
     author: 'user' | 'ai';

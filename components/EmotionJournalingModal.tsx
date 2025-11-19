@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { EMOTIONS, KEYWORDS } from '../constants';
-import { analyzeTextForEmotionsAndKeywords } from '../services/geminiService';
+import { analyzeTextForEmotionsAndKeywords } from '../services/openaiService';
 
 interface EmotionJournalingModalProps {
   onComplete: (data: {
