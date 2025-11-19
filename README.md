@@ -21,28 +21,36 @@ View your app in AI Studio: https://ai.studio/apps/drive/1YoFzX11uA-qQhNWmwe4mIc
 
 ## Deployment Options
 
-### Option 1: Vercel (Recommended)
+### Option 1: GitHub Pages (자동 배포)
+**이미 설정되어 있습니다!** main 브랜치에 머지하면 자동으로 배포됩니다.
+
+1. **GitHub 설정**
+   - Repository → Settings → Pages
+   - Source: `GitHub Actions` 선택
+
+2. **API 키 설정**
+   - Repository → Settings → Secrets and variables → Actions
+   - New repository secret 클릭
+   - Name: `API_KEY`
+   - Value: OpenAI API 키 입력
+   - Add secret 클릭
+
+3. **배포**
+   - main 브랜치에 push하면 자동으로 배포됩니다
+   - 배포 완료 후 URL: `https://springseed-park.github.io/remindme/`
+
+**⚠️ 주의**: GitHub Pages는 클라이언트 사이드에서 API를 호출하므로 API 키가 노출될 수 있습니다.
+
+### Option 2: Vercel (프로덕션 추천)
 1. Push your code to GitHub
 2. Go to [Vercel](https://vercel.com) and sign in with GitHub
 3. Import your repository
 4. Add environment variable: `API_KEY` with your OpenAI API key
 5. Deploy
 
-### Option 2: Netlify
+### Option 3: Netlify
 1. Push your code to GitHub
 2. Go to [Netlify](https://netlify.com) and sign in with GitHub
 3. Add new site from Git
 4. Add environment variable: `API_KEY` with your OpenAI API key
 5. Deploy
-
-### Option 3: GitHub Pages
-1. Install gh-pages: `npm install --save-dev gh-pages`
-2. Add to package.json scripts:
-   ```json
-   "predeploy": "npm run build",
-   "deploy": "gh-pages -d dist"
-   ```
-3. Update vite.config.ts with base URL
-4. Run: `npm run deploy`
-
-**Note:** For GitHub Pages, API calls may need a backend proxy to hide your API key securely.
