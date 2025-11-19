@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { AppContext } from '../App';
-import { analyzeEmotionAndCreateQuest } from '../services/geminiService';
+import { analyzeEmotionAndCreateQuest } from '../services/openaiService';
 import { DiaryEntry, RecommendedQuest, Quest } from '../types';
 import { RANDOM_MESSAGES } from '../constants';
 import QuestSelectionModal from './QuestSelectionModal';
