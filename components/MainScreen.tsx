@@ -32,16 +32,17 @@ const MainScreen: React.FC = () => {
   const latestEntry = context?.diaryEntries?.[0];
 
   const backgroundImage = useMemo(() => {
+    const baseUrl = import.meta.env.BASE_URL || '/';
     if (!latestEntry) {
-        return '../images/bg_neutral.jpg';
+        return `${baseUrl}images/bg_neutral.png`;
     }
     const mood = latestEntry.mood;
     if (mood < 2) { // negative
-        return '../images/bg_sad.png';
+        return `${baseUrl}images/bg_sad.png`;
     } else if (mood > 2) { // positive
-        return '../images/bg_happy.png';
+        return `${baseUrl}images/bg_happy.png`;
     }
-    return '../images/bg_neutral.png'; // neutral
+    return `${baseUrl}images/bg_neutral.png`; // neutral
   }, [latestEntry]);
 
 

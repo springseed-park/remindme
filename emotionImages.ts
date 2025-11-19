@@ -32,6 +32,7 @@ export const getEmotionImage = (emotion: string, entryId: string): string => {
   
   const imageIndex = (Math.abs(hash) % 3) + 1;
 
-  // 루트의 images 폴더 경로 반환 (확장자는 .png로 가정)
-  return `/images/${prefix}_${imageIndex}.png`;
+  // Vite의 base URL을 고려한 이미지 경로
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  return `${baseUrl}images/${prefix}_${imageIndex}.png`;
 };

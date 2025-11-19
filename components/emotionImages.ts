@@ -49,6 +49,7 @@ export const getEmotionImage = (emotion: string | undefined, entryId?: string, m
   
   const imageIndex = (Math.abs(hash) % 3) + 1;
 
-  // components 폴더에서 상위 폴더(root)의 images 접근
-  return `../images/${prefix}_${imageIndex}.jpg`;
+  // Vite의 base URL을 고려한 이미지 경로
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  return `${baseUrl}images/${prefix}_${imageIndex}.jpg`;
 };
