@@ -33,15 +33,15 @@ const MainScreen: React.FC = () => {
 
   const backgroundImage = useMemo(() => {
     if (!latestEntry) {
-        return '../images/bg_neutral.jpg';
+        return '/images/bg_neutral.png';
     }
     const mood = latestEntry.mood;
     if (mood < 2) { // negative
-        return '../images/bg_sad.png';
+        return '/images/bg_sad.png';
     } else if (mood > 2) { // positive
-        return '../images/bg_happy.png';
+        return '/images/bg_happy.png';
     }
-    return '../images/bg_neutral.png'; // neutral
+    return '/images/bg_neutral.png'; // neutral
   }, [latestEntry]);
 
 

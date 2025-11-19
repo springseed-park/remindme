@@ -49,6 +49,6 @@ export const getEmotionImage = (emotion: string | undefined, entryId?: string, m
   
   const imageIndex = (Math.abs(hash) % 3) + 1;
 
-  // components 폴더에서 상위 폴더(root)의 images 접근
-  return `../images/${prefix}_${imageIndex}.jpg`;
+  // public 폴더의 images 경로 (절대 경로)
+  return `/images/${prefix}_${imageIndex}.jpg`;
 };
