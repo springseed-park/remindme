@@ -1,8 +1,7 @@
-import OpenAI from "openai";
 import { UserProfile, RecommendedQuest, Product, Content } from "../types";
 import { KEYWORDS, EMOTIONS } from '../constants';
 
-const API_KEY = process.env.API_KEY;
+const API_ENDPOINT = '/api/openai';
 
 const MOCK_SHOPPING_DATA = {
   bannerMessage: "잠시 쉬어가도 괜찮아요. 당신을 위한 힐링 아이템을 모아봤어요.",
@@ -69,6 +68,25 @@ function getMockShoppingData() {
     return result;
 }
 
+async function callOpenAI(data: any) {
+  const response = await fetch(API_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      endpoint: 'chat',
+      data
+    })
+  });
+
+  if (!response.ok) {
+    throw new Error(`API request failed: ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
 export async function analyzeEmotionAndCreateQuest(
   diaryData: {
     text: string;
@@ -79,11 +97,6 @@ export async function analyzeEmotionAndCreateQuest(
   },
   conversationStyle: UserProfile['conversationStyle']
 ): Promise<{ emotion: string; quests: RecommendedQuest[]; aiResponse: string; } | null> {
-  if (!API_KEY) {
-    throw new Error("API_KEY is not set. Please set the API_KEY environment variable.");
-  }
-  const openai = new OpenAI({ apiKey: API_KEY, dangerouslyAllowBrowser: true });
-
   const lengthInstruction = '세네 문장의 보통 길이로.';
 
   const empathyText = conversationStyle.empathySolution < 0.33 ? '매우 해결 중심적이고' : conversationStyle.empathySolution < 0.66 ? '공감과 해결의 균형을 맞추고' : '매우 공감 중심적이고';
@@ -93,7 +106,7 @@ export async function analyzeEmotionAndCreateQuest(
   const moodDescriptions = ['매우 나쁨', '나쁨', '보통', '좋음', '매우 좋음'];
 
   try {
-    const response = await openai.chat.completions.create({
+    const response = await callOpenAI({
       model: "gpt-4-turbo-preview",
       messages: [
         {
@@ -148,17 +161,12 @@ const ALL_EMOTIONS = [
 ];
 
 export async function analyzeTextForEmotionsAndKeywords(text: string): Promise<{ emotions: string[], keywords: string[] } | null> {
-    if (!API_KEY) {
-      console.error("API_KEY is not set.");
-      return null;
-    }
     if (!text.trim()) {
         return { emotions: [], keywords: [] };
     }
-    const openai = new OpenAI({ apiKey: API_KEY, dangerouslyAllowBrowser: true });
 
     try {
-        const response = await openai.chat.completions.create({
+        const response = await callOpenAI({
             model: "gpt-4-turbo-preview",
             messages: [
                 {
@@ -205,18 +213,12 @@ export async function getChatResponse(
   message: string,
   conversationStyle: UserProfile['conversationStyle']
 ): Promise<string | null> {
-  if (!API_KEY) {
-    console.error("API_KEY is not set.");
-    return "API 키가 설정되지 않았어요.";
-  }
-  const openai = new OpenAI({ apiKey: API_KEY, dangerouslyAllowBrowser: true });
-
   const empathyText = conversationStyle.empathySolution > 0.66 ? '매우 공감 중심적이고' : conversationStyle.empathySolution > 0.33 ? '공감과 해결의 균형을 맞추고' : '매우 해결 중심적이고';
   const friendlyText = conversationStyle.friendlyFormal < 0.33 ? '매우 친근한' : conversationStyle.friendlyFormal < 0.66 ? '적당히 친근한' : '정중한';
   const styleInstruction = `${empathyText} ${friendlyText} 어조로`;
 
   try {
-    const response = await openai.chat.completions.create({
+    const response = await callOpenAI({
       model: "gpt-3.5-turbo",
       messages: [
         {
@@ -242,14 +244,8 @@ export async function generateShoppingSuggestions(
   negativeKeywords: string[],
   userName: string
 ): Promise<{ bannerMessage: string, products: Product[], contents: Content[] } | null> {
-  if (!API_KEY) {
-    console.warn("API_KEY is not set. Returning mock data.");
-    return Promise.resolve(getMockShoppingData());
-  }
-  const openai = new OpenAI({ apiKey: API_KEY, dangerouslyAllowBrowser: true });
-
   try {
-    const response = await openai.chat.completions.create({
+    const response = await callOpenAI({
       model: "gpt-4-turbo-preview",
       messages: [
         {

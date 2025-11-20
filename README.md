@@ -21,8 +21,35 @@ View your app in AI Studio: https://ai.studio/apps/drive/1YoFzX11uA-qQhNWmwe4mIc
 
 ## Deployment Options
 
-### Option 1: GitHub Pages (자동 배포)
-**이미 설정되어 있습니다!** main 브랜치에 머지하면 자동으로 배포됩니다.
+### Option 1: Vercel (추천 - 안전함) ⭐
+**API 키가 서버에 안전하게 보호됩니다!**
+
+1. **Vercel 가입 및 배포**
+   - https://vercel.com 접속
+   - GitHub 계정으로 Sign Up
+   - "Add New Project" 클릭
+   - 이 레포지토리 Import
+
+2. **환경변수 설정**
+   - Environment Variables 섹션에서
+   - Name: `API_KEY`
+   - Value: OpenAI API 키 입력
+   - 모든 환경 (Production, Preview, Development) 선택
+
+3. **배포 완료!**
+   - Deploy 버튼 클릭
+   - 몇 분 후 배포 완료
+   - Vercel이 제공하는 URL로 접속 가능
+
+**장점:**
+- ✅ API 키가 서버리스 함수에만 저장됨 (완전히 안전)
+- ✅ GitHub 연동 시 자동 배포
+- ✅ 무료 플랜으로 충분
+
+### Option 2: GitHub Pages (테스트용)
+**⚠️ 주의: API 키가 클라이언트에 노출됩니다!**
+
+이 방법은 테스트용으로만 사용하세요.
 
 1. **GitHub 설정**
    - Repository → Settings → Pages
@@ -30,27 +57,9 @@ View your app in AI Studio: https://ai.studio/apps/drive/1YoFzX11uA-qQhNWmwe4mIc
 
 2. **API 키 설정**
    - Repository → Settings → Secrets and variables → Actions
-   - New repository secret 클릭
    - Name: `API_KEY`
-   - Value: OpenAI API 키 입력
-   - Add secret 클릭
+   - Value: OpenAI API 키
 
-3. **배포**
-   - main 브랜치에 push하면 자동으로 배포됩니다
-   - 배포 완료 후 URL: `https://springseed-park.github.io/remindme/`
-
-**⚠️ 주의**: GitHub Pages는 클라이언트 사이드에서 API를 호출하므로 API 키가 노출될 수 있습니다.
-
-### Option 2: Vercel (프로덕션 추천)
-1. Push your code to GitHub
-2. Go to [Vercel](https://vercel.com) and sign in with GitHub
-3. Import your repository
-4. Add environment variable: `API_KEY` with your OpenAI API key
-5. Deploy
-
-### Option 3: Netlify
-1. Push your code to GitHub
-2. Go to [Netlify](https://netlify.com) and sign in with GitHub
-3. Add new site from Git
-4. Add environment variable: `API_KEY` with your OpenAI API key
-5. Deploy
+3. **사용량 제한 필수!**
+   - https://platform.openai.com/account/limits
+   - 월 사용량 제한 설정 (예: $5)
